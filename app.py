@@ -1,24 +1,27 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 import os
 from flask import Flask, render_template, request, jsonify
-from dotenv import load_dotenv
+
 import google.generativeai as genai
 import firebase_admin
 from firebase_admin import credentials, firestore
 
-load_dotenv()
 
 
 ##if not api_key:
     # Agar .env fail ho jaye toh direct yahan paste karke test karo
     #api_key = "AIzaSyC_Zke1L0n-LuRgpj5NrdFYiOYLv-KnFiA"
-MY_API_KEY = os.getenv("GEMINI_API_KEY")
+api_key = os.getenv("GEMINI_API_KEY")
 
     
 # --- GEMINI SETUP ---
 try:
-    genai.configure(api_key=MY_API_KEY)
+    genai.configure(api_key=api_key)
     model = genai.GenerativeModel('gemini-3-flash-preview')
     print("✅ Gemini System Initialized")
+    print(os.getenv("GEMINI_API_KEY"))
 except Exception as e:
     print(f"❌ Gemini Setup Error: {e}")
 app = Flask(__name__)
