@@ -9,7 +9,8 @@ body {
 }
 
 .chat-container {
-  width: 400px;
+  width: 95%;
+  max-width: 400px;
   height: 600px;
   background: white;
   border-radius: 15px;
@@ -17,8 +18,17 @@ body {
   flex-direction: column;
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
   overflow: hidden;
+  margin: 20px auto;
 }
 
+@media (max-width: 600px) {
+    .chat-container {
+        width: 100%;      /* Mobile par full width */
+        height: 100vh;    /* Mobile par full height */
+        margin: 0;        /* Borders hatane ke liye */
+        border-radius: 0; 
+    }
+}
 .chat-header {
   background: #4f46e5; /* Wahi original blue color */
   color: white;
