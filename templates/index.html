@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>University Helpdesk Chatbot</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="chat-container">
+  <div class="chat-header">
+    🤖 University Helpdesk Bot
+  </div>
+
+  <div id="chat" class="chat-body">
+    <!-- Welcome message -->
+    <div class="bot-row">
+      <div class="avatar">🤖</div>
+      <div class="bot-bubble">
+        Hi! I'm the University of Allahabad Helpdesk Bot 👋  
+        <br>How can I help you today?
+      </div>
+    </div>
+
+    <!-- Quick buttons -->
+    <div class="quick-buttons">
+      <button onclick="quickSend('working hours')">Working Hours</button>
+      <button onclick="quickSend('admission process')">Admission Process</button>
+      <button onclick="quickSend('contact details')">Contact Details</button>
+      <button onclick="quickSend('hostel facility')">Hostel Facility</button>
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <input type="text" id="userInput" placeholder="Type your question..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script>
+function addMessage(text, sender) {
+  const chat = document.getElementById("chat");
+
+  const row = document.createElement("div");
+  row.className = sender === "user" ? "user-row" : "bot-row";
+
+  if (sender === "bot") {
+    row.innerHTML = `
+      <div class="avatar">🤖</div>
+      <div class="bot-bubble">${text.replace(/\n/g, "<br>")}</div>
+    `;
+  } else {
+    row.innerHTML = `
+      <div class="user-bubble">${text}</div>
+    `;
+  }
+
+  chat.appendChild(row);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function sendMessage() {
+  const input = document.getElementById("userInput");
+  const message = input.value.trim();
+  if (!message) return;
+
+  addMessage(message, "user");
+  input.value = "";
+
+  fetch("/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message })
+  })
+  .then(res => res.json())
+  .then(data => addMessage(data.reply, "bot"));
+}
+
+function quickSend(text) {
+  document.getElementById("userInput").value = text;
+  sendMessage();
+}
+// Input field par Enter key detect karne ke liye
+document.getElementById("userInput").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Default behavior (page refresh) rokein
+        sendMessage(); // sendMessage function ko call karein
+    }
+});
+</script>
+
+</body>
+</html>
