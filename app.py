@@ -11,7 +11,7 @@ load_dotenv()
 ##if not api_key:
     # Agar .env fail ho jaye toh direct yahan paste karke test karo
     #api_key = "AIzaSyC_Zke1L0n-LuRgpj5NrdFYiOYLv-KnFiA"
-MY_API_KEY = "AIzaSyAXCkA5BXxrzKh3Mv-idIrDfik4QmhnQkE"
+MY_API_KEY = os.getenv("GEMINI_API_KEY")
 
     
 # --- GEMINI SETUP ---
